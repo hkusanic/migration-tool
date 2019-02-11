@@ -1,5 +1,4 @@
 import mongoose, { Schema }  from 'mongoose';
-//import { EmailSchema } from '../schemas/Email';
 
 const UserSchema = new Schema({
 	name: {
@@ -25,10 +24,6 @@ const UserSchema = new Schema({
 		required: [true, 'Type is required']
 	},
 	picture: {
-		type: String
-	},
-	email: EmailSchema,
-	language: {
 		type: String
 	},
 	permission: {
