@@ -22,7 +22,7 @@ console.log('STARTED');
 console.log('ENDED');
 
 
-let pages = 1;//25;
+let pages = 25;
 let homePage = 'https://www.niranjanaswami.relaxweb.ca/dev/en';
 let lecturesUrl = 'https://www.niranjanaswami.relaxweb.ca/dev/en/video/lectures';
 
@@ -99,7 +99,7 @@ function resolve(lecturesData) {
 				resolvedLectures = [].concat(...resolvedLectures); // flatten arrays
 				console.log('RESOLVED LECTURE LINKS');
 				//console.dir(resolvedLectures);
-
+        const lectureData = audio_lectures_en.data;
 				// LOAD INDIVIDUAL LECTURES
 				let lecturePages = [];
 
@@ -109,7 +109,7 @@ function resolve(lecturesData) {
 					await page.goto(newLink);
 					await page.waitFor(2*1000);
 
-					const lectureData = audio_lectures_en.data;
+          
 
 					lecturePages.push(await page.evaluate((lectureData) => {
 						let youtubeLinks = [];	
@@ -135,7 +135,8 @@ function resolve(lecturesData) {
 
 						if(audio !== null){
 							fid = audio.replace('https://www.niranjanaswami.relaxweb.ca/dev/download/', '');
-							console.log('--------FID-------', fid);
+              console.log('--------FID-------', fid);
+              
 							en_lecture = lectureData.find((audio_en) => {
 								return audio_en.filedetails.fid === fid;
 							});
@@ -160,7 +161,7 @@ function resolve(lecturesData) {
 							downloads,
 							nid,
 						};
-					}));
+					}, lectureData));
 
 				};
 				
