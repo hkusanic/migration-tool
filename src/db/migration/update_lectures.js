@@ -39,7 +39,7 @@ export const UpdateLectures = () => {
 				
 				for (let i = 0; i < transcription_en.data.length; i++){
 					// look for the entry with a matching `code` value
-					if (transcription_en.data[i].ref.target_id == nid){
+					if (transcription_en.data[i].ref.target_id == english.nid){
 						 console.log(`item ${transcription_en.data[i].nid} found`);
 						 trans_EN = transcription_en.data[i].nid;
 						 break;
@@ -54,7 +54,7 @@ export const UpdateLectures = () => {
 
 				for (let i = 0; i < transcription_ru.data.length; i++){
 					// look for the entry with a matching `code` value
-					if (transcription_ru.data[i].ref.target_id == nid){
+					if (transcription_ru.data[i].ref.target_id == russian.nid){
 						 console.log(`item ${transcription_ru.data[i].nid} found`);
 						 trans_RU = transcription_ru.data[i].nid;
 						 break;
