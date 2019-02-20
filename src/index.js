@@ -22,9 +22,9 @@ console.log('STARTED');
 console.log('ENDED');
 
 
-let pages = 25;
-let homePage = 'https://www.niranjanaswami.relaxweb.ca/dev/en';
-let lecturesUrl = 'https://www.niranjanaswami.relaxweb.ca/dev/en/video/lectures';
+let pages = 164;
+let homePage = 'https://www.niranjanaswami.net/en';//'https://www.niranjanaswami.relaxweb.ca/dev/en';
+let lecturesUrl = 'https://www.niranjanaswami.net/en/video/lectures';//'https://www.niranjanaswami.relaxweb.ca/dev/en/video/lectures';
 
 function resolve(lecturesData) {
 	return new Promise(async (resolve, reject) => {
@@ -141,7 +141,7 @@ function resolve(lecturesData) {
 								return audio_en.filedetails.fid === fid;
 							});
 
-							if(en_lecture !== null)
+							if(en_lecture !== null && en_lecture !== undefined)
 							{
 								nid = en_lecture.nid;
 								console.log('--------NID-------', nid);
