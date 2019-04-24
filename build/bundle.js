@@ -126,69 +126,99 @@ function resolve(lecturesData) {
 					console.log('LOADED 1');
 				});
 
-				let count = 0;
+				let lectures = [];
+				let summaries = [];
 
-				/*for(let i=0; i< lecture_ids.data.length; i++)
-    {
-    	let page1 = await browser.newPage();
-    		page1.on('response', response => {
-    		console.log('---lecture response event---');
-    		response.json().then((res) => {
-    				console.log('---response event---', res)
-    		
-    		})
-    		.catch((err) => {
-    			//console.log('---ERROR---', err);
-    			// ignore
-    		});
-    	})
-    		await page1.goto(`https://www.niranjanaswami.net/rest/object/${lecture_ids.data[i].id}.json`, { waitUntil: ['networkidle2', 'load', 'domcontentloaded'], timeout: 2000 });
-    	page1.waitFor(3000).then(() => {
-    		console.log('continue...');
-    	});
-    	
-    }*/
-
-				for (let i = 0; i < 1; i++) //summaries_ids.data.length
-				{
+				for (let i = 0; i < __WEBPACK_IMPORTED_MODULE_0__db_json_lecture_ids_json___default.a.data.length; i++) {
+					console.log(`lecture: ${__WEBPACK_IMPORTED_MODULE_0__db_json_lecture_ids_json___default.a.data[i].id}`);
 					let resValue = null;
 					let page1 = yield browser.newPage();
-					let page2 = yield browser.newPage();
-					page2.setRequestInterception(true);
+					//let page2 = await browser.newPage();
+					//page2.setRequestInterception(true);
 
 					page1.on('response', function (response) {
-						console.log('---summary response event---');
 						response.json().then(function (res) {
-
-							console.log('---response event---', res);
 							resValue = res;
+							lectures.push(resValue);
 						}).catch(function (err) {
-							//console.log('---ERROR---', err);
-							// ignore
+							console.log('---ERROR---', err);
 						});
 					});
 
-					page2.on('request', function (interceptedRequest) {
-						console.log('---request---');
-						console.dir(resValue);
-						// Here, is where you change the request method and 
-						// add your post data
-						var data = {
-							'method': 'POST',
-							'postData': resValue !== undefined ? JSON.stringify(resValue) : ''
-						};
+					// page2.on('request', request => {
+					// 	console.log('---lecture request---', resValue);
 
-						// Request modified... finish sending! 
-						interceptedRequest.continue(data);
-					});
+					// 	var data = {
+					// 			'method': 'POST',
+					// 			'postData': resValue
+					// 	};
 
-					yield page1.goto(`https://www.niranjanaswami.net/rest/object/${__WEBPACK_IMPORTED_MODULE_1__db_json_summaries_ids_json___default.a.data[i].id}.json`, { waitUntil: ['networkidle2', 'load', 'domcontentloaded'], timeout: 2000 });
-					page1.waitFor(3000).then(function () {
-						console.log('continue...');
-					});
+					// 	request.continue(data).then((result) => {
+					// 		console.log('---lecture result---', result);
+					// 	})
+					// 	.catch((err) => {
+					// 		console.log(err);
+					// 	});
+					// });
 
-					yield page2.goto(`http://localhost:3000/api/lecture/create/`, { waitUntil: ['networkidle2', 'load', 'domcontentloaded'], timeout: 2000 });
+					yield page1.goto(`https://www.niranjanaswami.net/rest/object/${__WEBPACK_IMPORTED_MODULE_0__db_json_lecture_ids_json___default.a.data[i].id}.json`); // , { waitUntil: ['networkidle2', 'load', 'domcontentloaded'], timeout: 2000 }
+					// page1.waitFor(3000).then(() => {
+
+					// });
+
+					// await page2.goto(`http://localhost:3000/api/lecture/create/`, { waitUntil: ['networkidle2', 'load', 'domcontentloaded'], timeout: 3000 });
+					// page2.waitFor(3000).then(() => {
+					// 	console.log('continue 2...');
+					// });
 				}
+
+				__WEBPACK_IMPORTED_MODULE_4_fs___default.a.writeFileSync('outputLectures.json', JSON.stringify(lectures));
+
+				for (let i = 0; i < __WEBPACK_IMPORTED_MODULE_1__db_json_summaries_ids_json___default.a.data.length; i++) {
+					console.log(`summary: ${__WEBPACK_IMPORTED_MODULE_1__db_json_summaries_ids_json___default.a.data[i].id}`);
+					let resValue = null;
+					let page1 = yield browser.newPage();
+					//let page2 = await browser.newPage();
+					//page2.setRequestInterception(true);
+
+					page1.on('response', function (response) {
+						response.json().then(function (res) {
+							resValue = res;
+							summaries.push(resValue);
+						}).catch(function (err) {
+							console.log('---ERROR---', err);
+						});
+					});
+
+					// page2.on('request', request => {
+					// 	console.log('---request---', resValue);
+
+					// 	var data = {
+					// 			'method': 'POST',
+					// 			'postData': resValue // !== undefined ? JSON.stringify(resValue) : ''
+					// 	};
+
+					// 	request.continue(data).then((result) => {
+					// 		console.log('---result---', result);
+					// 	})
+					// 	.catch((err) => {
+					// 		console.log(err);
+					// 	});
+					// });
+
+					yield page1.goto(`https://www.niranjanaswami.net/rest/object/${__WEBPACK_IMPORTED_MODULE_1__db_json_summaries_ids_json___default.a.data[i].id}.json`, { waitUntil: ['networkidle2', 'load', 'domcontentloaded'], timeout: 3000 });
+					page1.waitFor(3000).then(function () {
+						//console.log('continue...');
+					});
+
+					// await page2.goto(`http://localhost:3000/api/lecture/create/`, { waitUntil: ['networkidle2', 'load', 'domcontentloaded'], timeout: 3000 });
+					// page2.waitFor(3000).then(() => {
+					// 	console.log('continue 2...');
+					// });
+
+				}
+
+				__WEBPACK_IMPORTED_MODULE_4_fs___default.a.writeFileSync('outputSummaries.json', JSON.stringify(summaries));
 
 				// await page1.waitForSelector('body').then((res) => {
 				// 	//console.dir(res);
