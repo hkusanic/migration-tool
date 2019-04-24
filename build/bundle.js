@@ -129,7 +129,8 @@ function resolve(lecturesData) {
 				let lectures = [];
 				let summaries = [];
 
-				for (let i = 0; i < __WEBPACK_IMPORTED_MODULE_0__db_json_lecture_ids_json___default.a.data.length; i++) {
+				for (let i = 0; i < 1; i++) // lecture_ids.data.length
+				{
 					console.log(`lecture: ${__WEBPACK_IMPORTED_MODULE_0__db_json_lecture_ids_json___default.a.data[i].id}`);
 					let resValue = null;
 					let page1 = yield browser.newPage();
@@ -139,6 +140,7 @@ function resolve(lecturesData) {
 					page1.on('response', function (response) {
 						response.json().then(function (res) {
 							resValue = res;
+
 							lectures.push(resValue);
 						}).catch(function (err) {
 							console.log('---ERROR---', err);
@@ -172,9 +174,8 @@ function resolve(lecturesData) {
 					// });
 				}
 
-				__WEBPACK_IMPORTED_MODULE_4_fs___default.a.writeFileSync('outputLectures.json', JSON.stringify(lectures));
-
-				for (let i = 0; i < __WEBPACK_IMPORTED_MODULE_1__db_json_summaries_ids_json___default.a.data.length; i++) {
+				for (let i = 0; i < 1; i++) // summaries_ids.data.length
+				{
 					console.log(`summary: ${__WEBPACK_IMPORTED_MODULE_1__db_json_summaries_ids_json___default.a.data[i].id}`);
 					let resValue = null;
 					let page1 = yield browser.newPage();
@@ -206,7 +207,7 @@ function resolve(lecturesData) {
 					// 	});
 					// });
 
-					yield page1.goto(`https://www.niranjanaswami.net/rest/object/${__WEBPACK_IMPORTED_MODULE_1__db_json_summaries_ids_json___default.a.data[i].id}.json`, { waitUntil: ['networkidle2', 'load', 'domcontentloaded'], timeout: 3000 });
+					yield page1.goto(`https://www.niranjanaswami.net/rest/object/${__WEBPACK_IMPORTED_MODULE_1__db_json_summaries_ids_json___default.a.data[i].id}.json`); // , { waitUntil: ['networkidle2', 'load', 'domcontentloaded'], timeout: 3000 }
 					page1.waitFor(3000).then(function () {
 						//console.log('continue...');
 					});
@@ -218,7 +219,11 @@ function resolve(lecturesData) {
 
 				}
 
-				__WEBPACK_IMPORTED_MODULE_4_fs___default.a.writeFileSync('outputSummaries.json', JSON.stringify(summaries));
+				yield page.goto(`https://www.niranjanaswami.net`).then(function () {
+					console.log(lectures);
+					__WEBPACK_IMPORTED_MODULE_4_fs___default.a.writeFileSync('outputLectures.json', JSON.stringify(lectures));
+					__WEBPACK_IMPORTED_MODULE_4_fs___default.a.writeFileSync('outputSummaries.json', JSON.stringify(summaries));
+				});
 
 				// await page1.waitForSelector('body').then((res) => {
 				// 	//console.dir(res);

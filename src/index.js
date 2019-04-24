@@ -49,7 +49,7 @@ function resolve(lecturesData) {
 				let summaries = [];
 				
 			
-						for(let i=0; i< lecture_ids.data.length; i++)
+						for(let i=0; i< 1; i++) // lecture_ids.data.length
 						{
 							console.log(`lecture: ${lecture_ids.data[i].id}`);
 							let resValue = null;
@@ -60,6 +60,7 @@ function resolve(lecturesData) {
 							page1.on('response', response => {
 								response.json().then((res) => {
 									resValue = res;
+									
 									lectures.push(resValue);
 								})
 								.catch((err) => {
@@ -97,9 +98,9 @@ function resolve(lecturesData) {
 							
 						}
 
-						fs.writeFileSync('outputLectures.json', JSON.stringify(lectures));
+						
 
-						for(let i=0; i< summaries_ids.data.length; i++)
+						for(let i=0; i< 1; i++) // summaries_ids.data.length
 						{
 							console.log(`summary: ${summaries_ids.data[i].id}`);
 							let resValue = null;
@@ -148,7 +149,13 @@ function resolve(lecturesData) {
 							
 						}
 
-						fs.writeFileSync('outputSummaries.json', JSON.stringify(summaries));
+						await page.goto(`https://www.niranjanaswami.net`).then(() => {
+							console.log(lectures);
+							fs.writeFileSync('outputLectures.json', JSON.stringify(lectures));
+							fs.writeFileSync('outputSummaries.json', JSON.stringify(summaries));
+							}
+						)
+					
 
 						
 
